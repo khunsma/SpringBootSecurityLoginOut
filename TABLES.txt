@@ -1,136 +1,19 @@
-CREATE DATABASE mswrr;
-
-CREATE TABLE stateregion(
-stateId int(2) NOT NULL AUTO_INCREMENT,
-name_mm VARCHAR(50) UNIQUE NOT NULL,
-name_eng VARCHAR(50) UNIQUE NOT NULL,
-created_on DATETIME NOT NULL,
-PRIMARY KEY(stateId)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE district(
-districtId int (5) NOT NULL AUTO_INCREMENT,
-name_mm VARCHAR(50) NOT NULL,
-name_eng VARCHAR(50) NOT NULL,
-stateId int(2) NOT NULL,
-created_on DATETIME NOT NULL,
-PRIMARY KEY(districtId),
-CONSTRAINT fkdistrict_1 FOREIGN KEY (stateId) REFERENCES stateregion(stateId) ON
-DELETE RESTRICT ON UPDATE CASCADE
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE township(
-townshipId int (5) NOT NULL AUTO_INCREMENT,
-name_mm VARCHAR(50) NOT NULL,
-name_eng VARCHAR(50) NOT NULL,
-districtId int(5) NOT NULL,
-created_on DATETIME NOT NULL,
-PRIMARY KEY(townshipId),
-CONSTRAINT fktownship_1 FOREIGN KEY(districtId) REFERENCES district(districtId) ON
-DELETE RESTRICT ON UPDATE CASCADE
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE village(
-villageId int(6) NOT NULL AUTO_INCREMENT,
-name_mm VARCHAR(50) NOT NULL,
-name_eng VARCHAR(50) NOT NULL,
-townshipId int(5) NOT NULL,
-created_on DATETIME NOT NULL,
-PRIMARY KEY(villageId),
-CONSTRAINT fkvillage_1 FOREIGN KEY(townshipId) REFERENCES township(townshipId) ON
-DELETE RESTRICT ON UPDATE CASCADE
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE villageward(
-villageward_id int(7) NOT NULL AUTO_INCREMENT,
-name_mm VARCHAR(50) NOT NULL,
-name_eng VARCHAR(50) NOT NULL,
-villageId int(6) NOT NULL,
-created_on DATETIME NOT NULL,
-PRIMARY KEY(villageward_id),
-CONSTRAINT fkvillageward_1 FOREIGN KEY(villageId) REFERENCES village(villageId) ON
-DELETE RESTRICT ON UPDATE CASCADE
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-CREATE TABLE candidate(
-candidate_id int(10) NOT NULL AUTO_INCREMENT,
-candidate_name VARCHAR(50) NOT NULL,
-candidate_father_name VARCHAR(50),
-candidate_nrc VARCHAR(20),
-candidate_card_id VARCHAR(20),
-first_time_registration_month VARCHAR(20) NOT NULL,
-first_time_receive_grant_date DATETIME,
-give_birth_date DATETIME,
-child_name VARCHAR(50),
-child_weight VARCHAR(4),
-child_name_two VARCHAR(50),
-child_weight_two VARCHAR(4),
-child_name_three VARCHAR(50),
-child_weight_three VARCHAR(4),
-address VARCHAR(80),
-township VARCHAR(50),
-district VARCHAR(50),
-stateregion VARCHAR(50),
-candidate_fingerprint_path1 VARCHAR(100),
-candidate_fingerprint_path2 VARCHAR(100),
-candidate_fingerprint_path3 VARCHAR(100),
-candidate_fingerprint_path4 VARCHAR(100),
-candidate_fingerprint_path5 VARCHAR(100),
-created_by_id int(4),
-created_by_name VARCHAR(50),
-created_on DATETIME NOT NULL,
-PRIMARY KEY(candidate_id)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE LOGINUSER(
-login_user_id int(4) NOT NULL AUTO_INCREMENT,
-mswrruser_id integer,
-login_username VARCHAR(50) UNIQUE NOT NULL,
-login_password VARCHAR(800),
-login_role VARCHAR(20),
-login_enable int(1),
-created_on DATETIME NOT NULL,
-PRIMARY KEY(login_user_id)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE MSWRRUSER(
-mswrruser_id int(4) NOT NULL AUTO_INCREMENT,
-mswrruser_name VARCHAR(50) NOT NULL,
-mswrruser_nrcno VARCHAR(20),
-mswrruser_position VARCHAR(50),
-created_on DATETIME NOT NULL,
-PRIMARY KEY(mswrruser_id)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-MYSQL USERMANAGEMENT
-=========================
 CREATE TABLE `role` (
   `id` bigint(20) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`id`));
 
 CREATE TABLE `user` (
   `id` bigint(20) NOT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `first_name` varchar(255) DEFAULT NULL,
-  `last_name` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `UKob8kqyqqgmefl0aco34akdtpe` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`id`)
+);
 
-
-CREATE TABLE `user_role` (
+CREATE TABLE `users_roles` (
   `user_id` bigint(20) NOT NULL,
   `role_id` bigint(20) NOT NULL,
   KEY `FKt4v0rrweyk393bdgt107vdx0x` (`role_id`),
   KEY `FKgd3iendaoyh04b95ykqise6qh` (`user_id`),
   CONSTRAINT `FKgd3iendaoyh04b95ykqise6qh` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
   CONSTRAINT `FKt4v0rrweyk393bdgt107vdx0x` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`)
-) ;
-
-
-
+);
